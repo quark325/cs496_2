@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--about login page-->
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <!--TODO: Add Confirm Image -->
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/modifyConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/modifyImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="30dp"
+                android:src="@mipmap/ic_launcher"
+                android:contentDescription="user photo"
+                />
+
+            <TextView
+                style="@style/modifyTitle"
+                android:text="Name"
+                />
+
+            <EditText
+                android:id="@+id/modifyName"
+                style="@style/modifyContent"
+                android:autofillHints="name"
+                tools:text="Name"
+             />
+
+            <TextView
+                style="@style/modifyTitle"
+                android:text="Gender"
+                />
+
+            <!--TODO: Add gender select button -> https://bit.ly/2RuEy91 -->
+
+            <TextView
+                style="@style/modifyTitle"
+                android:text="Date of Birth"/>
+
+            <TextView
+                android:id="@+id/modifyBirthDay"
+                style="@style/modifyContent"
+                android:autofillHints="name"
+                android:background="?attr/editTextBackground"
+                android:text="2000-01-01">
+            </TextView>
+
+            <TextView
+                style="@style/modifyTitle"
+                android:text="Phone Number"/>
+            
+            <EditText
+                android:id="@+id/modifyContact"
+                style="@style/modifyContent"
+                android:inputType="phone"
+                android:autofillHints="010-XXXX-XXXX"
+                tools:text="010-XXXX-XXXX">
+            </EditText>
+
+            <TextView
+                style="@style/modifyTitle"
+                android:text="Residence"/>
+
+            <EditText
+                android:id="@+id/modifyResidence"
+                style="@style/modifyContent"
+                android:autofillHints="Residence"
+                tools:text="Residence"
+                />
+
+            <TextView
+                style="@style/modifyTitle"
+                android:text="Job"/>
+            
+            <EditText
+                android:id="@+id/modifyJob"
+                style="@style/modifyContent"
+                android:autofillHints="Job"
+                tools:text="Job"
+                />
+
+            <TextView
+                style="@style/modifyTitle"
+                android:text="Hobby"/>
+            
+            <EditText
+                android:id="@+id/modifyHobby"
+                style="@style/modifyContent"
+                android:autofillHints="Hobby"
+                tools:text="Hobby"
+                />
+        </LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>
