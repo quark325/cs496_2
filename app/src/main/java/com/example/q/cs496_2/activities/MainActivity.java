@@ -24,49 +24,52 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONObject;
 import com.example.q.cs496_2.R;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
     //FB Login 구현
     private LoginButton loginButton;
     private CallbackManager callbackManager;
-    private ProfileTracker  profileTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //profileTracker 실행 (무엇을 하는 친구인지 알아봐야함)
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                Log.e("profile", String.valueOf(oldProfile));
-            }
-        };
 
         setContentView(R.layout.activity_main);
 
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton)findViewById(R.id.login_button);
 
-        loginButton.setReadPermissions("public_profile","email", "user_birthday", "user_friends");
+        loginButton.setReadPermissions("public_profile","user_birthday", "user_friends","user_gender");
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 //로그인 성공!
-                Log.e("user profile",loginResult.getAccessToken().toString());
                 //얘도 뭐하는 놈인지 모르겠음!!
                 GraphRequest request =GraphRequest.newMeRequest(loginResult.getAccessToken() ,
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
+                                    //if(){}
+                                    Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
                                     Log.e("user profile",object.toString());
+                                    intent.putExtra("id",object.getString("id"));
+                                    intent.putExtra("name",object.getString("name"));
+                                    intent.putExtra("birthday",object.getString("birthday"));
+                                    intent.putExtra("gender",object.getString("gender"));
+                                    startActivity(intent);
+
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    //Log.e("now","got it");
                                 }
                             }
                         });
-                request.executeAsync();;
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,birthday,gender");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
@@ -80,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
