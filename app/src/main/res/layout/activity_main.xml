@@ -18,14 +18,14 @@
         android:src="@mipmap/ic_launcher"
         />
 
-    <android.support.v7.widget.AppCompatButton
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="30dp"
         tools:text="Log in with facebook"
-        >
-    </android.support.v7.widget.AppCompatButton>
+        />
 
 </android.support.design.widget.CoordinatorLayout>
