@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.q.cs496_2.R;
+import com.facebook.Profile;
 
 public class InformationFragment extends Fragment {
     @Override
@@ -34,15 +35,27 @@ public class InformationFragment extends Fragment {
         TextView viewJob = (TextView) view.findViewById(R.id.infoJob);
         TextView viewHobby = (TextView) view.findViewById(R.id.infoHobby);
 
-        //TODO 아래 ""안에 데이터베이스에서 꺼낸 값을 넣어줘야한다.
-        //viewImage.setImageResource("이미지 위치찾기");
-        viewName.setText("name");
-        viewGender.setText("gender");
-        viewAge.setText("age");
-        viewContact.setText("contact");
-        viewResidence.setText("residence");
-        viewJob.setText("job");
-        viewHobby.setText("hobby");
+        //TODO : ID를 기반으로 데이터베이스에 접근하여 변수에 적절한 값을 넣어줘야한다.
+        String id = Profile.getCurrentProfile().getId();
+        String name;
+        String gender;
+        int age;
+        String contact;
+        String residence;
+        String job;
+        String hobby;
+
+        //TODO : 아래 ""안에 데이터베이스에서 꺼낸 값을 넣어줘야한다.
+        /*
+        viewImage.setImageResource("이미지 위치찾기");
+        viewName.setText(name);
+        viewGender.setText(gender);
+        viewAge.setText(age.toString());
+        viewContact.setText(contact);
+        viewResidence.setText(residence);
+        viewJob.setText(job);
+        viewHobby.setText(hobby);
+        */
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.infoEdit);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,12 +64,7 @@ public class InformationFragment extends Fragment {
                 //TODO Edit화면으로 넘어감.
             }
         });
-        viewImage.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                //TODO PHOTO SELECT 화면으로 넘어감
-            }
-        });
+
         return view;
     }
 }

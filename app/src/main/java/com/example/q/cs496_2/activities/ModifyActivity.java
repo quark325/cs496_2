@@ -2,17 +2,20 @@ package com.example.q.cs496_2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.q.cs496_2.R;
+import com.facebook.Profile;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -30,6 +33,7 @@ public class ModifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_modify);
 
+        final ImageView editPhoto = (ImageView) findViewById(R.id.modifyImage);
         final TextView editName = (TextView) findViewById(R.id.modifyName);
         final SegmentedGroup editGender = (SegmentedGroup) findViewById(R.id.segmented);
         final TextView editBirthday = (TextView) findViewById(R.id.modifyBirthDay);
@@ -60,17 +64,27 @@ public class ModifyActivity extends AppCompatActivity {
         //TODO 사진 받아오기
         //TODO 받아온 사진 서버로 옮기기
 
+        //이미지 버튼 클릭시
+        editPhoto.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //TODO PHOTO SELECT 화면으로 넘어가는 기능
+            }
+        });
 
+        //완료버튼 클릭시
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.modifyConfirm);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //데이터 유효성 검사
                 if(notAllWritten()){
                     Toast toast = Toast.makeText(getApplicationContext(), "should fill all blanks", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
-                //gender check
+
+                //gender check, 생년월일 -> 나이
                 String gender;
                 if (female.isChecked()){
                     gender = "female";
@@ -78,8 +92,6 @@ public class ModifyActivity extends AppCompatActivity {
                     gender = "male";
                 }
 
-                int age = 2019 - Integer.parseInt(editBirthday.getText().toString().
-                        substring(0,4))+1;
                 /*TODO 여기가 데이터 보내는 부분. 아래있는 형식대로 데이터를 넘기면 된다.
                 ID정보 : id;
                 이름 : editName.getText().toString();
@@ -95,7 +107,7 @@ public class ModifyActivity extends AppCompatActivity {
                 Log.e("ID!!!", id);
                 Log.e("Name!!!", editName.getText().toString());
                 Log.e("Gender!!!", gender);
-                Log.e("Age!!!", age+"");
+                Log.e("Age!!!", editBirthday.getText().toString());
                 Log.e("Contact!!!", editContact.getText().toString());
                 Log.e("Residence!!!", editResidence.getText().toString());
                 Log.e("Job!!!", editJob.getText().toString());
@@ -117,6 +129,7 @@ public class ModifyActivity extends AppCompatActivity {
         });
     }
 
+    @NonNull
     private String changeOrder(String birthday) {
         String[] date = birthday.split("/");
         return date[2]+"/"+date[0]+"/"+date[1];
