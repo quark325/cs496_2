@@ -14,14 +14,14 @@ import com.example.q.cs496_2.models.User;
 
 import java.util.ArrayList;
 
-public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.otherViewHolder> {
+public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> {
     private ArrayList<User> userData;
 
     public OtherAdapter(ArrayList<User> data){
         userData = data;
     }
     
-    public class otherViewHolder extends RecyclerView.ViewHolder {
+    public class viewHolder extends RecyclerView.ViewHolder {
         private ImageView viewPhoto;
         private TextView viewName;
         private TextView viewAge;
@@ -30,7 +30,7 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.otherViewHol
         private TextView viewHobby;
         private TextView viewContact;
 
-        public otherViewHolder(@NonNull View itemView) {
+        public viewHolder(@NonNull View itemView) {
             super(itemView);
             viewPhoto = itemView.findViewById(R.id.entryPhoto);
             viewName = itemView.findViewById(R.id.entryName);
@@ -44,20 +44,26 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.otherViewHol
     
     @NonNull
     @Override
-    public OtherAdapter.otherViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public OtherAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.entry_others, viewGroup, false);
-        return new otherViewHolder(view);
+        return new viewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OtherAdapter.otherViewHolder myViewHolder, int i) {
-        myViewHolder.bind();
+    public void onBindViewHolder(@NonNull OtherAdapter.viewHolder holder, int i) {
+        //TODO 이미지 Bind할 방법 생각하기 0123132
+        //holder.viewPhoto;
+        holder.viewName.setText(userData.get(i).getName());
+        holder.viewAge.setText(userData.get(i).getAge());
+        holder.viewResidence.setText(userData.get(i).getResidence());
+        holder.viewJob.setText(userData.get(i).getJob());
+        holder.viewHobby.setText(userData.get(i).getHobby());
+        holder.viewContact.setText(userData.get(i).getContact());
     }
 
     @Override
     public int getItemCount() {
         return userData.size();
     }
-
 }
