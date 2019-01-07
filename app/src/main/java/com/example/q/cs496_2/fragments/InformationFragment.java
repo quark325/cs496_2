@@ -17,6 +17,7 @@ import com.example.q.cs496_2.R;
 import com.example.q.cs496_2.https.HttpGetRequest;
 import com.facebook.Profile;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,39 +46,46 @@ public class InformationFragment extends Fragment {
         //Some url endpoint that you may have
         String myUrl = "http://143.248.140.106:2580/members";
         //String to place our result in
-        String result;
-        //Instantiate new instance of our class
+        String get_result;
+        //Instantiate new instance of our class GET
         HttpGetRequest getRequest = new HttpGetRequest();
         //Perform the doInBackground method, passing in our url
-
         try {
-            result = getRequest.execute(myUrl).get();
-            Log.d("hoho: ", result);
-            JSONObject reader = new JSONObject(result);
-            Log.d("!!!!","실행은 된다.");
+            get_result = getRequest.execute(myUrl).get();
+            JSONObject jsonObj = new JSONObject(get_result); //
+            Log.d("RESULT IS", get_result);
+            // Getting JSON Array node
+            JSONArray members = jsonObj.getJSONArray("members");
 
-            String uId = reader.getString("uId");
-            String age = reader.getString("age");
-            String date_of_birth = reader.getString("date_of_birth");
-            String job = reader.getString("job");
-            String hobby = reader.getString("hobby");
-            String gender = reader.getString("gender");
-            String contact = reader.getString("photo");
-            String gave = reader.getString("gave");
-            String received = reader.getString("received");
-            String success = reader.getString("success");
-            String last_updated_time = reader.getString("last_updated_time");
-            String residence = reader.getString("residence");
+            // looping through All Contacts
+            for (int i = 0; i < members.length(); ++i) {
+                JSONObject m = members.getJSONObject(i);
+                Log.d("member_JSON", m.toString());
+                String uId = m.getString("uId");
+                String age =m.getString("age");
+                String date_of_birth = m.getString("date_of_birth");
+                String job = m.getString("job");
+                String hobby = m.getString("hobby");
+                String gender = m.getString("gender");
+                String contact = m.getString("photo");
+                JSONArray gave = m.getJSONArray("gave");
+                JSONArray received = m.getJSONArray("received");
+                String success = m.getString("success");
+                String last_updated_time = m.getString("last_updated_time");
+                String residence = m.getString("residence");
+                String name = m.getString("name");
+                // JSONArray의 j 번째 원소에 접근하려면 gave.getString(j)와 같이 접근
+            }
+
         } catch (ExecutionException e) {
-            Log.d("error", "haha");
+            Log.e("error", "haha");
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            Log.d("error", "haha");
+            Log.e("error", "haha");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         //TODO : ID를 기반으로 데이터베이스에 접근하여 변수에 적절한 값을 넣어줘야한다.
         String id = Profile.getCurrentProfile().getId();
