@@ -15,6 +15,7 @@ import com.example.q.cs496_2.R;
 import com.example.q.cs496_2.adapters.OtherAdapter;
 import com.example.q.cs496_2.https.HttpGetRequest;
 import com.example.q.cs496_2.models.User;
+import com.facebook.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +41,11 @@ public class OtherFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_others,  container, false);
 
+        String id = Profile.getCurrentProfile().getId();
+        String mUrl = "http://143.248.140.106:2580/members/";
+        String myUrl = mUrl + id;
+
+        String myGender;
         String name="";
         String gender="";
         int age=0;
@@ -49,17 +55,21 @@ public class OtherFragment extends Fragment {
         String hobby="";
         String photo="";
         //String to place our result in
-        String get_result;
+        String get_result = "";
+        String get_my_result;
         //Instantiate new instance of our class GET
         HttpGetRequest getRequest = new HttpGetRequest();
-
-        String myUrl = "http://143.248.140.106:2580/members/"+"17";
-        String mUrl = "http://143.248.140.106:2580/members";
+        HttpGetRequest getMyRequest = new HttpGetRequest();
         //Perform the doInBackground method, passing in our url
         userData=new ArrayList<User>();
 
         try {
-            get_result = getRequest.execute(mUrl).get();
+            get_my_result = getRequest.execute(myUrl).get();
+            JSONObject myJsonObj = new JSONObject(get_my_result);
+            //.getJSONObject("member");
+            JSONObject member = myJsonObj.getJSONObject("member");
+            myGender = member.getString("gender");
+            get_result = getMyRequest.execute(mUrl).get();
             JSONObject jsonObj = new JSONObject(get_result); //
 
             // Getting JSON Array node
@@ -67,24 +77,24 @@ public class OtherFragment extends Fragment {
 
             for (int i = 0; i < members.length(); ++i)
             {
-                Log.d("heyhey", "woooow");
                 JSONObject m = members.getJSONObject(i);
-                name = m.getString("name");
                 gender = m.getString("gender");
-                age = m.getInt("age");
-                contact = m.getString("contact");
-                residence = m.getString("residence");
-                job = m.getString("job");
-                hobby = m.getString("hobby");
-                User user1 = new User();
-                user1.setName(name);
-                user1.setAge("" + age);
-                user1.setResidence(residence);
-                user1.setHobby(hobby);
-                user1.setJob(job);
-                userData.add(user1);
+                if (!gender.equals(myGender)) {
+                    name = m.getString("name");
+                    age = m.getInt("age");
+                    contact = m.getString("contact");
+                    residence = m.getString("residence");
+                    job = m.getString("job");
+                    hobby = m.getString("hobby");
+                    User user1 = new User();
+                    user1.setName(name);
+                    user1.setAge("" + age);
+                    user1.setResidence(residence);
+                    user1.setHobby(hobby);
+                    user1.setJob(job);
+                    userData.add(user1);
+                }
             }
-
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -93,7 +103,7 @@ public class OtherFragment extends Fragment {
             e.printStackTrace();
         }
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.othersRecyclerView);
+        mRecyclerView = view.findViewById(R.id.othersRecyclerView);
 
         mLayoutManger = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManger);
