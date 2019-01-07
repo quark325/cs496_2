@@ -128,7 +128,8 @@ public class ModifyActivity extends AppCompatActivity {
                 //Image Upload
                 //파일이름 : file_name
                 //TODO 이미지 추가를 하지 않으면 에러를 만들기 때문에 일단 이렇게 주석처리를 함. 작동하는 코드임
-                /*f = new File(path);
+
+                f = new File(path);
                 file_name = f.getName();
                 Future uploading = Ion.with(ModifyActivity.this)
                         .load("http://143.248.140.106:2980/upload")
@@ -148,7 +149,7 @@ public class ModifyActivity extends AppCompatActivity {
 
                             }
                         });
-                */
+
                 /*TODO 여기가 데이터 보내는 부분. 아래있는 형식대로 데이터를 넘기면 된다.
                 ID정보 : id;
                 이름 : editName.getText().toString();
@@ -170,6 +171,7 @@ public class ModifyActivity extends AppCompatActivity {
                     json.put("contact",editContact.getText().toString());
                     json.put("residence",editResidence.getText().toString());
                     json.put("name",editName.getText().toString());
+                    json.put("photo",file_name);
                     //json_test.put("value","7");
                     //json_test.put("propName","id");
                     //linkerList.add(json);

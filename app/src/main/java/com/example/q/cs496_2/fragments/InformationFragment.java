@@ -1,5 +1,6 @@
 package com.example.q.cs496_2.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.q.cs496_2.R;
+import com.example.q.cs496_2.adapters.ImageAdapter;
 import com.example.q.cs496_2.https.HttpGetRequest;
 import com.facebook.Profile;
 
@@ -75,6 +81,8 @@ public class InformationFragment extends Fragment {
             residence = member.getString("residence");
             job = member.getString("job");
             hobby = member.getString("hobby");
+            photo = member.getString("photo");
+            Log.d("PHOTO",photo);
         } catch (ExecutionException e) {
             Log.e("error", "haha");
             e.printStackTrace();
@@ -88,6 +96,19 @@ public class InformationFragment extends Fragment {
         /*
         viewImage.setImageResource("이미지 위치찾기");
         */
+
+        Uri uri = null;
+        ImageAdapter imageAdapter = new ImageAdapter(getContext(), uri);
+        //ImageView imageView = new ImageView(getContext());
+        RequestManager requestManager = Glide.with(imageAdapter.getContext());
+        // Create request builder and load image.
+        RequestBuilder requestBuilder = requestManager.load("http://143.248.140.106:2980/uploads/"+photo);
+        requestBuilder = requestBuilder.apply(new RequestOptions().override(250, 250));
+        // Show image into target imageview.
+        requestBuilder.into(viewImage);
+        viewImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        //images.add(imageView);
+
         viewName.setText(name);
         viewGender.setText(gender);
         viewAge.setText(age+"");

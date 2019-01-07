@@ -18,6 +18,7 @@ public class HttpPostRequest extends AsyncTask<String, Void, JsonArray> {
 
     public HttpPostRequest(StringEntity json_string) {
         mJsonString = json_string;
+        Log.d("Json input is",mJsonString.toString());
     }
 
 
