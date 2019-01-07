@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -46,8 +47,12 @@ public class ModifyActivity extends AppCompatActivity {
     ImageView editPhoto;
     String path;
     String file_name;
+    boolean image_add = false;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
+        getSupportActionBar().hide();
         setContentView(R.layout.mypage_modify);
 
         editPhoto = (ImageView) findViewById(R.id.modifyImage);
@@ -77,7 +82,6 @@ public class ModifyActivity extends AppCompatActivity {
             male.setChecked(true);
         }
 
-        //TODO 전체 다 채워져있지 않으면 거절하기
         //TODO 사진 받아오기
         //TODO 받아온 사진 서버로 옮기기
 
@@ -103,7 +107,7 @@ public class ModifyActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //데이터 유효성 검사
                 if(notAllWritten()){
-                    Toast toast = Toast.makeText(getApplicationContext(), "should fill all blanks", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "should fill all blanks and add Image", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
@@ -115,30 +119,6 @@ public class ModifyActivity extends AppCompatActivity {
                 }else {
                     gender = "male";
                 }
-
-                //Image Upload
-                //파일이름 : file_name
-                f = new File(path);
-                file_name = f.getName();
-                Future uploading = Ion.with(ModifyActivity.this)
-                        .load("http://143.248.140.106:2980/upload")
-                        .setMultipartFile("image", f)
-                        .asString()
-                        .withResponse()
-                        .setCallback(new FutureCallback<Response<String>>() {
-                            @Override
-                            public void onCompleted(Exception e, Response<String> result) {
-                                try {
-                                    JSONObject jobj = new JSONObject(result.getResult());
-                                    Toast.makeText(getApplicationContext(), jobj.getString("response"), Toast.LENGTH_SHORT).show();
-
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-
-                            }
-                        });
-
 
                 /*TODO 여기가 데이터 보내는 부분. 아래있는 형식대로 데이터를 넘기면 된다.
                 ID정보 : id;
@@ -176,20 +156,7 @@ public class ModifyActivity extends AppCompatActivity {
             }
         });
     }
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null)
-            return;
-        switch (requestCode) {
-            case 100:
-                if (resultCode == RESULT_OK) {
-                    path = getRealPathFromURI(this,data.getData());
-                    //file_name = f.getName();
-                    Log.d(" Real Path : ", path);
-                    editPhoto.setImageURI(data.getData());
-                    //upload.setVisibility(View.VISIBLE);
-                }
-        }
-    }
+
     public String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {

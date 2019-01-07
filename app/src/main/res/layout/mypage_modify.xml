@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--about login page-->
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_launcher_background"
         android:layout_margin="16dp" />
     <ScrollView
         android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                 style="@style/modifyContent"
                 android:autofillHints="name"
                 tools:text="Name"
-             />
+                />
 
             <TextView
                 style="@style/modifyTitle"
@@ -97,7 +97,7 @@
             <TextView
                 style="@style/modifyTitle"
                 android:text="Phone Number"/>
-            
+
             <EditText
                 android:id="@+id/modifyContact"
                 style="@style/modifyContent"
@@ -121,7 +121,7 @@
             <TextView
                 style="@style/modifyTitle"
                 android:text="Job"/>
-            
+
             <EditText
                 android:id="@+id/modifyJob"
                 style="@style/modifyContent"
@@ -133,7 +133,7 @@
             <TextView
                 style="@style/modifyTitle"
                 android:text="Hobby"/>
-            
+
             <EditText
                 android:id="@+id/modifyHobby"
                 style="@style/modifyContent"

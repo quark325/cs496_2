@@ -11,13 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.q.cs496_2.R;
-import com.example.q.cs496_2.adapters.OtherAdapter;
+import com.example.q.cs496_2.adapters.MatchAdapter;
 import com.example.q.cs496_2.models.User;
 
 import java.util.ArrayList;
 
 
-public class OtherFragment extends Fragment {
+public class MatchFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManger;
@@ -31,7 +31,7 @@ public class OtherFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_others,  container, false);
+        View view = inflater.inflate(R.layout.fragment_matches, container, false);
 
         userData=new ArrayList<User>();
         User user1 = new User();
@@ -52,13 +52,13 @@ public class OtherFragment extends Fragment {
         user2.setJob("학생");
         userData.add(user2);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.othersRecyclerView);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.matchesRecyclerView);
 
         mLayoutManger = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManger);
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new OtherAdapter(userData);
+        mAdapter = new MatchAdapter(userData);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

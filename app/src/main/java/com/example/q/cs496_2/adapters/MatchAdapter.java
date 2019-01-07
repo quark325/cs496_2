@@ -15,13 +15,13 @@ import com.example.q.cs496_2.models.User;
 
 import java.util.ArrayList;
 
-public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> {
+public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.viewHolder> {
     private ArrayList<User> userData;
 
-    public OtherAdapter(ArrayList<User> data){
+    public MatchAdapter(ArrayList<User> data){
         userData = data;
     }
-    
+
     public class viewHolder extends RecyclerView.ViewHolder {
         private RelativeLayout viewEntry;
         private ImageView viewPhoto;
@@ -33,25 +33,25 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            viewPhoto = itemView.findViewById(R.id.oEntryPhoto);
-            viewName = itemView.findViewById(R.id.oEntryName);
-            viewAge = itemView.findViewById(R.id.oEntryAge);
-            viewResidence = itemView.findViewById(R.id.oEntryResidence);
-            viewJob = itemView.findViewById(R.id.oEntryJob);
-            viewHobby =itemView.findViewById(R.id.oEntryHobby);
+            viewPhoto = itemView.findViewById(R.id.mEntryPhoto);
+            viewName = itemView.findViewById(R.id.mEntryName);
+            viewAge = itemView.findViewById(R.id.mEntryAge);
+            viewResidence = itemView.findViewById(R.id.mEntryResidence);
+            viewJob = itemView.findViewById(R.id.mEntryJob);
+            viewHobby =itemView.findViewById(R.id.mEntryHobby);
         }
     }
-    
+
     @NonNull
     @Override
-    public OtherAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MatchAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.entry_others, viewGroup, false);
+                .inflate(R.layout.entry_matches, viewGroup, false);
         return new viewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OtherAdapter.viewHolder holder, int i) {
+    public void onBindViewHolder(@NonNull MatchAdapter.viewHolder holder, int i) {
         //holder.viewPhoto;
         holder.viewName.setText(userData.get(i).getName());
         holder.viewAge.setText(userData.get(i).getAge());

@@ -11,27 +11,27 @@
     >
 
     <RelativeLayout
-        android:id="@+id/oRelativeLayout"
+        android:id="@+id/mRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/oEntryPhoto"
+            android:id="@+id/mEntryPhoto"
             android:layout_width="150dp"
             android:layout_height="150dp"
             tools:src="@mipmap/ic_launcher" />
 
         <LinearLayout
-            android:id="@+id/linear1"
+            android:id="@+id/linear11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:layout_toEndOf="@id/oEntryPhoto"
-            android:layout_toRightOf="@id/oEntryPhoto"
+            android:layout_toEndOf="@id/mEntryPhoto"
+            android:layout_toRightOf="@id/mEntryPhoto"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/oEntryName"
+                android:id="@+id/mEntryName"
                 style="@style/Entry.Margin"
                 tools:text="홍길동" />
 
@@ -40,22 +40,22 @@
                 android:text=", " />
 
             <TextView
-                android:id="@+id/oEntryAge"
+                android:id="@+id/mEntryAge"
                 style="@style/Entry"
                 tools:text="나이" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear2"
+            android:id="@+id/linear12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linear1"
-            android:layout_toEndOf="@id/oEntryPhoto"
-            android:layout_toRightOf="@id/oEntryPhoto"
+            android:layout_below="@id/linear11"
+            android:layout_toEndOf="@id/mEntryPhoto"
+            android:layout_toRightOf="@id/mEntryPhoto"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/oEntryResidence"
+                android:id="@+id/mEntryResidence"
                 style="@style/Entry.Margin"
                 tools:text="실제 거주지" />
 
@@ -64,25 +64,34 @@
                 android:text=", " />
 
             <TextView
-                android:id="@+id/oEntryJob"
+                android:id="@+id/mEntryJob"
                 style="@style/Entry"
                 tools:text="직업" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear3"
+            android:id="@+id/linear13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linear2"
-            android:layout_toEndOf="@id/oEntryPhoto"
-            android:layout_toRightOf="@id/oEntryPhoto"
+            android:layout_below="@id/linear12"
+            android:layout_toEndOf="@id/mEntryPhoto"
+            android:layout_toRightOf="@id/mEntryPhoto"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/oEntryHobby"
+                android:id="@+id/mEntryHobby"
                 style="@style/Entry.Margin"
                 tools:text="취미" />
+
+            <TextView
+                style="@style/Entry"
+                android:text=", " />
+
+            <TextView
+                android:id="@+id/mEntryContacts"
+                style="@style/Entry"
+                tools:text="연락처" />
         </LinearLayout>
 
     </RelativeLayout>
