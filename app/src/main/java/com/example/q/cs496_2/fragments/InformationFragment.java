@@ -43,40 +43,37 @@ public class InformationFragment extends Fragment {
         TextView viewJob = (TextView) view.findViewById(R.id.infoJob);
         TextView viewHobby = (TextView) view.findViewById(R.id.infoHobby);
 
-        //Some url endpoint that you may have
-        String myUrl = "http://143.248.140.106:2580/members";
+        String name="";
+        String gender="";
+        int age=0;
+        String contact="";
+        String residence="";
+        String job="";
+        String hobby="";
+        String photo="";
         //String to place our result in
         String get_result;
         //Instantiate new instance of our class GET
         HttpGetRequest getRequest = new HttpGetRequest();
+        
+        //Some url endpoint that you may have
+        String id = Profile.getCurrentProfile().getId();
+        //TODO "17"부분을 id로 바꾸면 진행된다.
+        String myUrl = "http://143.248.140.106:2580/members/"+"17";
+        String mUrl = "http://143.248.140.106:2580/members/";
         //Perform the doInBackground method, passing in our url
+        
         try {
             get_result = getRequest.execute(myUrl).get();
-            JSONObject jsonObj = new JSONObject(get_result); //
-            Log.d("RESULT IS", get_result);
-            // Getting JSON Array node
-            JSONArray members = jsonObj.getJSONArray("members");
+            JSONObject jsonObj = new JSONObject(get_result).getJSONObject("member");
 
-            // looping through All Contacts
-            for (int i = 0; i < members.length(); ++i) {
-                JSONObject m = members.getJSONObject(i);
-                Log.d("member_JSON", m.toString());
-                String uId = m.getString("uId");
-                String age =m.getString("age");
-                String date_of_birth = m.getString("date_of_birth");
-                String job = m.getString("job");
-                String hobby = m.getString("hobby");
-                String gender = m.getString("gender");
-                String contact = m.getString("photo");
-                JSONArray gave = m.getJSONArray("gave");
-                JSONArray received = m.getJSONArray("received");
-                String success = m.getString("success");
-                String last_updated_time = m.getString("last_updated_time");
-                String residence = m.getString("residence");
-                String name = m.getString("name");
-                // JSONArray의 j 번째 원소에 접근하려면 gave.getString(j)와 같이 접근
-            }
-
+            name = jsonObj.getString("name");
+            gender = jsonObj.getString("gender");
+            age = jsonObj.getInt("age");
+            contact = jsonObj.getString("contact");
+            residence = jsonObj.getString("residence");
+            job = jsonObj.getString("job");
+            hobby = jsonObj.getString("hobby");
         } catch (ExecutionException e) {
             Log.e("error", "haha");
             e.printStackTrace();
@@ -86,17 +83,6 @@ public class InformationFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        //TODO : ID를 기반으로 데이터베이스에 접근하여 변수에 적절한 값을 넣어줘야한다.
-        String id = Profile.getCurrentProfile().getId();
-        String name="Name";
-        String gender="Gender";
-        int age=24;
-        String contact ="010-1234-1234";
-        String residence = "Daejeon";
-        String job = "Student";
-        String hobby = "LOL";
-
         //TODO : 아래 ""안에 데이터베이스에서 꺼낸 값을 넣어줘야한다.
         /*
         viewImage.setImageResource("이미지 위치찾기");
