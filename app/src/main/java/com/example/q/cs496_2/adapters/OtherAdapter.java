@@ -1,6 +1,7 @@
 package com.example.q.cs496_2.adapters;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +11,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.q.cs496_2.R;
+import com.example.q.cs496_2.fragments.OtherFragment;
 import com.example.q.cs496_2.models.User;
 
 import java.util.ArrayList;
@@ -53,6 +59,16 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
     @Override
     public void onBindViewHolder(@NonNull OtherAdapter.viewHolder holder, int i) {
         //holder.viewPhoto;
+        Uri uri = null;
+        ImageAdapter imageAdapter = new ImageAdapter(holder.viewPhoto.getContext(), uri);
+        //ImageView imageView = new ImageView(getContext());
+        RequestManager requestManager = Glide.with(imageAdapter.getContext());
+        // Create request builder and load image.
+        RequestBuilder requestBuilder = requestManager.load("http://143.248.140.106:2980/uploads/"+userData.get(i).getPhoto());
+        requestBuilder = requestBuilder.apply(new RequestOptions().override(250, 250));
+        // Show image into target imageview.
+        requestBuilder.into(holder.viewPhoto);
+        holder.viewPhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         holder.viewName.setText(userData.get(i).getName());
         holder.viewAge.setText(userData.get(i).getAge());
         holder.viewResidence.setText(userData.get(i).getResidence());

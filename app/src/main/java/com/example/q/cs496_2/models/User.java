@@ -9,6 +9,7 @@ public class User {
     private String contact;
     private String job;
     private String hobby;
+    private String photo;
 
     //TODO : Image
 
@@ -36,4 +37,7 @@ public class User {
 
     public String getJob() { return job; }
     public void setJob(String job) { this.job = job; }
+
+    public String getPhoto() {return photo;}
+    public void setPhoto(String photo) {this.photo = photo;}
 }
