@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,15 +60,20 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
     @Override
     public void onBindViewHolder(@NonNull OtherAdapter.viewHolder holder, int i) {
         //holder.viewPhoto;
+
+
         Uri uri = null;
         ImageAdapter imageAdapter = new ImageAdapter(holder.viewPhoto.getContext(), uri);
         //ImageView imageView = new ImageView(getContext());
         RequestManager requestManager = Glide.with(imageAdapter.getContext());
         // Create request builder and load image.
         RequestBuilder requestBuilder = requestManager.load("http://143.248.140.106:2980/uploads/"+userData.get(i).getPhoto());
-        requestBuilder = requestBuilder.apply(new RequestOptions().override(250, 250));
+        //requestBuilder = requestBuilder.apply(new RequestOptions().override(250, 250));
         // Show image into target imageview.
+        Log.d("PHOTOPHOTO",userData.get(i).getPhoto()==null?"1":"WOOOW");
         requestBuilder.into(holder.viewPhoto);
+
+
         holder.viewPhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         holder.viewName.setText(userData.get(i).getName());
         holder.viewAge.setText(userData.get(i).getAge());

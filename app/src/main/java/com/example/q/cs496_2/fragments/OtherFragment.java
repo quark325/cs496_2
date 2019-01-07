@@ -93,6 +93,7 @@ public class OtherFragment extends Fragment {
                     user1.setResidence(residence);
                     user1.setHobby(hobby);
                     user1.setJob(job);
+                    user1.setPhoto(photo);
                     userData.add(user1);
                 }
             }
