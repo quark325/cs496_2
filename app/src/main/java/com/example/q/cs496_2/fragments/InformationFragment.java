@@ -59,21 +59,22 @@ public class InformationFragment extends Fragment {
         //Some url endpoint that you may have
         String id = Profile.getCurrentProfile().getId();
         //TODO "17"부분을 id로 바꾸면 진행된다.
-        String myUrl = "http://143.248.140.106:2580/members/"+"17";
+        String myUrl = "http://143.248.140.106:2580/members/"+id;
         String mUrl = "http://143.248.140.106:2580/members/";
         //Perform the doInBackground method, passing in our url
         
         try {
             get_result = getRequest.execute(myUrl).get();
-            JSONObject jsonObj = new JSONObject(get_result).getJSONObject("member");
-
-            name = jsonObj.getString("name");
-            gender = jsonObj.getString("gender");
-            age = jsonObj.getInt("age");
-            contact = jsonObj.getString("contact");
-            residence = jsonObj.getString("residence");
-            job = jsonObj.getString("job");
-            hobby = jsonObj.getString("hobby");
+            JSONObject jsonObj = new JSONObject(get_result);
+                    //.getJSONObject("member");
+            JSONObject member = jsonObj.getJSONObject("member");
+            name = member.getString("name");
+            gender = member.getString("gender");
+            age = member.getInt("age");
+            contact = member.getString("contact");
+            residence = member.getString("residence");
+            job = member.getString("job");
+            hobby = member.getString("hobby");
         } catch (ExecutionException e) {
             Log.e("error", "haha");
             e.printStackTrace();
