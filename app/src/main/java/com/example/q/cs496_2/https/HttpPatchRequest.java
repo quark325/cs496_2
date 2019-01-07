@@ -1,5 +1,6 @@
 package com.example.q.cs496_2.https;
 
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -11,12 +12,14 @@ import cz.msebera.android.httpclient.client.methods.HttpPatch;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
 
-class HttpRequestClass extends AsyncTask<String, Void, JsonArray> {
+public class HttpPatchRequest extends AsyncTask<String, Void, JsonArray> {
     HttpClient httpClient = HttpClientBuilder.create().build();
     StringEntity mJsonString;
+    String user_id;
 
-    public HttpRequestClass(StringEntity json_string) {
+    public HttpPatchRequest(StringEntity json_string, String id) {
         mJsonString = json_string;
+        user_id = id;
     }
 
 
@@ -32,6 +35,8 @@ class HttpRequestClass extends AsyncTask<String, Void, JsonArray> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return null;
+
     }
 }

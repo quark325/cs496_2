@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.q.cs496_2.R;
+import com.example.q.cs496_2.https.HttpPostRequest;
 import com.facebook.Profile;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.concurrent.Future;
 
+import cz.msebera.android.httpclient.entity.StringEntity;
 import info.hoang8f.android.segmented.SegmentedGroup;
 
 public class ModifyActivity extends AppCompatActivity {
@@ -44,8 +46,10 @@ public class ModifyActivity extends AppCompatActivity {
     private String residence;
     private RadioButton male, female;
     private boolean isMember;
-
-
+    String path;
+    public File f;
+    public String file_name;
+    public ImageView editPhoto;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -55,7 +59,7 @@ public class ModifyActivity extends AppCompatActivity {
         setContentView(R.layout.mypage_modify);
 
         //layout과의 연결을 담당하는 부분
-        final ImageView editPhoto = (ImageView) findViewById(R.id.modifyImage);
+        editPhoto = (ImageView) findViewById(R.id.modifyImage);
         final TextView editName = (TextView) findViewById(R.id.modifyName);
         final SegmentedGroup editGender = (SegmentedGroup) findViewById(R.id.segmented);
         final TextView editBirthday = (TextView) findViewById(R.id.modifyBirthDay);
@@ -91,6 +95,14 @@ public class ModifyActivity extends AppCompatActivity {
         editPhoto.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                //TODO PHOTO SELECT 화면으로 넘어가는 기능
+                Intent fintent = new Intent(Intent.ACTION_GET_CONTENT);
+                fintent.setType("image/jpeg");
+                try {
+                    startActivityForResult(fintent, 100);
+                } catch (ActivityNotFoundException e) {
+
+                }
             }
         });
 
@@ -113,6 +125,28 @@ public class ModifyActivity extends AppCompatActivity {
                 }else {
                     gender = "male";
                 }
+                //Image Upload
+                //파일이름 : file_name
+                f = new File(path);
+                file_name = f.getName();
+                Future uploading = Ion.with(ModifyActivity.this)
+                        .load("http://143.248.140.106:2980/upload")
+                        .setMultipartFile("image", f)
+                        .asString()
+                        .withResponse()
+                        .setCallback(new FutureCallback<Response<String>>() {
+                            @Override
+                            public void onCompleted(Exception e, Response<String> result) {
+                                try {
+                                    JSONObject jobj = new JSONObject(result.getResult());
+                                    Toast.makeText(getApplicationContext(), jobj.getString("response"), Toast.LENGTH_SHORT).show();
+
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+
+                            }
+                        });
 
                 /*TODO 여기가 데이터 보내는 부분. 아래있는 형식대로 데이터를 넘기면 된다.
                 ID정보 : id;
@@ -126,6 +160,33 @@ public class ModifyActivity extends AppCompatActivity {
 
                 무슨값을 넘겼는지 확인하는 Log
                 */
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("uId",id);
+                    //date of birth 변수가 없음!!!!
+                    json.put("date_of_birth","1997/10/03");
+                    json.put("job", editJob.getText().toString());
+                    json.put("hobby",editHobby.getText().toString());
+                    json.put("gender",gender);
+                    json.put("contact",editContact.getText().toString());
+                    json.put("residence",editResidence.getText().toString());
+                    json.put("name",editName.getText().toString());
+                    //json_test.put("value","7");
+                    //json_test.put("propName","id");
+                    //linkerList.add(json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    //http에 넣을 수 있는 형식으로 만들기
+                    StringEntity json_string = new StringEntity(json.toString());
+                    //httprequestclass 로 보내서 실행시키기
+                    new HttpPostRequest(json_string).execute();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 Log.d("ID!!!", id);
                 Log.d("Name!!!", editName.getText().toString());
                 Log.d("Gender!!!", gender);
@@ -150,7 +211,34 @@ public class ModifyActivity extends AppCompatActivity {
             }
         });
     }
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null)
+            return;
+        switch (requestCode) {
+            case 100:
+                if (resultCode == RESULT_OK) {
+                    path = getRealPathFromURI(this,data.getData());
+                    //file_name = f.getName();
+                    Log.d(" Real Path : ", path);
+                    editPhoto.setImageURI(data.getData());
+                    //upload.setVisibility(View.VISIBLE);
+                }
+        }
+    }
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
     @NonNull
     private String changeOrder(String birthday) {
         String[] date = birthday.split("/");
