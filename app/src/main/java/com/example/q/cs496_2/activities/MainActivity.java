@@ -22,6 +22,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.example.q.cs496_2.R;
@@ -48,9 +49,43 @@ public class MainActivity extends AppCompatActivity {
         token = AccessToken.getCurrentAccessToken();
         //TODO 로그인 되어있다면, 회원일 경우(uid를 통해서 해결) 바로 information으로 이동한다. 회원이 아닌경우 로그아웃을 한다.
         if (token != null){
-            Intent intent = new Intent(MainActivity.this, FragmentActivity.class);
-            startActivity(intent);
-            finish();
+            String id = Profile.getCurrentProfile().getId();
+            boolean isUser = false;
+            try {
+                HttpGetRequest getRequest = new HttpGetRequest();
+                String myUrl = "http://143.248.140.106:2580/members";
+                String get_result = getRequest.execute(myUrl).get();
+                JSONObject jsonObj = new JSONObject(get_result);
+                JSONArray members = jsonObj.getJSONArray("members");
+
+                for (int i = 0; i < members.length(); ++i) {
+                    JSONObject m = members.getJSONObject(i);
+                    if (id.equals(m.getString("uId"))){
+                        isUser = true;
+                    }
+                }
+            } catch (ExecutionException e) {
+                Log.e("error", "haha");
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.e("error", "haha");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            //USER면 바로 information activity로 이동
+            if (isUser) {
+                Log.e("!!!","!!!");
+                startActivity(new Intent(MainActivity.this, FragmentActivity.class));
+                finish();
+            }
+            else {
+                Log.e("!!!!","!!!!");
+                //로그인이 되어있는데 회원이 아닌경우 회원가입페이지로 이동
+                Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -61,22 +96,44 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
-                                    final String id = Profile.getCurrentProfile().getId();
-                                    isMember(id);
-                                    //if 이미 회원가입 되어있다면 -> 바로 FragmentActivity로 이동
-                                    //if문 조건 : 회원가입 되어잇다면
-                                    //if(isMember(id)){
-                                    //}else{
-                                    Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
-                                    Log.e("!!!!!", "1");
-                                    intent.putExtra("id", object.getString("id"));
-                                    intent.putExtra("name", object.getString("name"));
-                                    intent.putExtra("birthday", object.getString("birthday"));
-                                    intent.putExtra("gender", object.getString("gender"));
-                                    startActivity(intent);
-                                    finish();
-                                    //}
 
+                                    String id = object.getString("id");
+                                    boolean isUser = false;
+                                    try {
+                                        HttpGetRequest getRequest = new HttpGetRequest();
+                                        String myUrl = "http://143.248.140.106:2580/members";
+                                        String get_result = getRequest.execute(myUrl).get();
+                                        JSONObject jsonObj = new JSONObject(get_result);
+                                        JSONArray members = jsonObj.getJSONArray("members");
+                                        for (int i = 0; i < members.length(); ++i) {
+                                            JSONObject m = members.getJSONObject(i);
+                                            if (id.equals(m.getString("uId"))){
+                                                isUser = true;
+                                            }
+                                        }
+                                    } catch (ExecutionException e) {
+                                        Log.e("error", "haha");
+                                        e.printStackTrace();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                        Log.e("error", "haha");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //USER면 바로 information activity로 이동
+                                    if (isUser){
+                                        startActivity(new Intent(MainActivity.this, FragmentActivity.class));
+                                        finish();
+                                    //USER가 아니면 회원가입 페이지로 이동
+                                    }else {
+                                        Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
+                                        intent.putExtra("id", object.getString("id"));
+                                        intent.putExtra("name", object.getString("name"));
+                                        intent.putExtra("birthday", object.getString("birthday"));
+                                        intent.putExtra("gender", object.getString("gender"));
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -101,18 +158,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void isMember(String id) {
-
-    }
-
-//    private boolean isMember(String id) {}
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        Log.e("!!!!!", "2");
     }
-
-
 }

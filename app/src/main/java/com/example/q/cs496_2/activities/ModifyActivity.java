@@ -74,7 +74,7 @@ public class ModifyActivity extends AppCompatActivity {
         Intent intent=getIntent();
         final String id = intent.getStringExtra("id");
         name = intent.getStringExtra("name");
-        birthday = changeOrder(intent.getStringExtra("birthday"));//생년월일 순서 정렬
+        birthday = intent.getStringExtra("birthday");//생년월일 순서 정렬
         gender = intent.getStringExtra("gender");
 
         //TODO 이미 회원인 경우 모든 데이터를 이전과 동일하게 채워넣는다.
@@ -119,6 +119,7 @@ public class ModifyActivity extends AppCompatActivity {
                 }
 
                 //gender check, 생년월일 -> 나이
+                birthday = changeOrder(birthday);
                 String gender;
                 if (female.isChecked()){
                     gender = "female";

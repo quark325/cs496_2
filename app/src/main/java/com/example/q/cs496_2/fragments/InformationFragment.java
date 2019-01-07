@@ -101,6 +101,7 @@ public class InformationFragment extends Fragment {
         viewImage.setImageResource("이미지 위치찾기");
         */
 
+        /*
         Uri uri = null;
         ImageAdapter imageAdapter = new ImageAdapter(getContext(), uri);
         //ImageView imageView = new ImageView(getContext());
@@ -112,6 +113,7 @@ public class InformationFragment extends Fragment {
         requestBuilder.into(viewImage);
         viewImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         //images.add(imageView);
+        */
 
         viewName.setText(name);
         viewGender.setText(gender);
