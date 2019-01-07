@@ -1,5 +1,6 @@
 package com.example.q.cs496_2.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,8 +22,10 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.q.cs496_2.R;
 import com.example.q.cs496_2.adapters.ImageAdapter;
+import com.example.q.cs496_2.activities.MainActivity;
 import com.example.q.cs496_2.https.HttpGetRequest;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,6 +129,28 @@ public class InformationFragment extends Fragment {
                 //TODO Edit화면으로 넘어감.
             }
         });
+
+        //TODO 간이용 Logout 버튼 추후 수정 예정
+        Button logout = (Button) view.findViewById(R.id.logoutButton);
+        logout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),MainActivity.class);
+                LoginManager.getInstance().logOut();
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+        //TODO 간이용 EXIT 버튼 추후 수정 예정
+        Button exit = (Button) view.findViewById(R.id.exitButton);
+        exit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
 
         return view;
     }
