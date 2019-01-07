@@ -39,7 +39,6 @@ public class OtherFragment extends Fragment {
         user1.setAge("22");
         user1.setResidence("대전");
         user1.setHobby("롤");
-        user1.setContact("010-1234-4567");
         user1.setJob("학생");
         userData.add(user1);
 
@@ -48,7 +47,6 @@ public class OtherFragment extends Fragment {
         user2.setAge("22");
         user2.setResidence("대전");
         user2.setHobby("롤");
-        user2.setContact("010-1234-4567");
         user2.setJob("학생");
         userData.add(user2);
 

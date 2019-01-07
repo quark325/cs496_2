@@ -43,19 +43,19 @@ public class ModifyActivity extends AppCompatActivity {
     private String birthday;
     private String residence;
     private RadioButton male, female;
-    public File f;
-    ImageView editPhoto;
-    String path;
-    String file_name;
-    boolean image_add = false;
+    private boolean isMember;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //맨위 TITEL_BAR 제거
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
         getSupportActionBar().hide();
         setContentView(R.layout.mypage_modify);
 
-        editPhoto = (ImageView) findViewById(R.id.modifyImage);
+        //layout과의 연결을 담당하는 부분
+        final ImageView editPhoto = (ImageView) findViewById(R.id.modifyImage);
         final TextView editName = (TextView) findViewById(R.id.modifyName);
         final SegmentedGroup editGender = (SegmentedGroup) findViewById(R.id.segmented);
         final TextView editBirthday = (TextView) findViewById(R.id.modifyBirthDay);
@@ -66,12 +66,17 @@ public class ModifyActivity extends AppCompatActivity {
         male = (RadioButton)findViewById(R.id.radioMale);
         female = (RadioButton)findViewById(R.id.radioFemale);
 
-        //페이스북에서 받아온 id, name, birthday, gender 받기
+        //초기 로그인 : id, name, birthday, gender 받기
         Intent intent=getIntent();
         final String id = intent.getStringExtra("id");
         name = intent.getStringExtra("name");
         birthday = changeOrder(intent.getStringExtra("birthday"));//생년월일 순서 정렬
         gender = intent.getStringExtra("gender");
+
+        //TODO 이미 회원인 경우 모든 데이터를 이전과 동일하게 채워넣는다.
+        if (intent.getStringExtra("isMember")!=null){
+            Log.d("!!!!", "이미 회원인 경우 작동한다.");
+        }
 
         //받아온 정보 입력
         editName.setText(name);
@@ -82,21 +87,10 @@ public class ModifyActivity extends AppCompatActivity {
             male.setChecked(true);
         }
 
-        //TODO 사진 받아오기
-        //TODO 받아온 사진 서버로 옮기기
-
         //이미지 버튼 클릭시
         editPhoto.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //TODO PHOTO SELECT 화면으로 넘어가는 기능
-                Intent fintent = new Intent(Intent.ACTION_GET_CONTENT);
-                fintent.setType("image/jpeg");
-                try {
-                    startActivityForResult(fintent, 100);
-                } catch (ActivityNotFoundException e) {
-
-                }
             }
         });
 
@@ -132,14 +126,14 @@ public class ModifyActivity extends AppCompatActivity {
 
                 무슨값을 넘겼는지 확인하는 Log
                 */
-                Log.e("ID!!!", id);
-                Log.e("Name!!!", editName.getText().toString());
-                Log.e("Gender!!!", gender);
-                Log.e("Age!!!", editBirthday.getText().toString());
-                Log.e("Contact!!!", editContact.getText().toString());
-                Log.e("Residence!!!", editResidence.getText().toString());
-                Log.e("Job!!!", editJob.getText().toString());
-                Log.e("Hobby!!!", editHobby.getText().toString());
+                Log.d("ID!!!", id);
+                Log.d("Name!!!", editName.getText().toString());
+                Log.d("Gender!!!", gender);
+                Log.d("Age!!!", editBirthday.getText().toString());
+                Log.d("Contact!!!", editContact.getText().toString());
+                Log.d("Residence!!!", editResidence.getText().toString());
+                Log.d("Job!!!", editJob.getText().toString());
+                Log.d("Hobby!!!", editHobby.getText().toString());
 
 
                 //다음 Activity로 이동
@@ -157,20 +151,6 @@ public class ModifyActivity extends AppCompatActivity {
         });
     }
 
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
     @NonNull
     private String changeOrder(String birthday) {
         String[] date = birthday.split("/");

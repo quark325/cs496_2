@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
         token = AccessToken.getCurrentAccessToken();
 
 
-        //TODO 로그인 되어있다면, 로그아웃한다.
+        //TODO 로그인 되어있다면, 회원일 경우(uid를 통해서 해결) 바로 information으로 이동한다. 회원이 아닌경우 로그아웃을 한다.
         if (token != null){
             String id = Profile.getCurrentProfile().getId();
-            Log.e("@@Login success ID","id");
+            Log.d("@@Login success ID","id");
             LoginManager.getInstance().logOut();
         }
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     //회원가입되어있지 않다면 ->아래있는 코드로 이동
                                     Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
-                                    Log.e("user profile", object.toString());
+                                    Log.d("user profile", object.toString());
                                     intent.putExtra("id", object.getString("id"));
                                     intent.putExtra("name", object.getString("name"));
                                     intent.putExtra("birthday", object.getString("birthday"));

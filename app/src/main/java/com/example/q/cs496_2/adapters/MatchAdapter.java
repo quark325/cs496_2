@@ -30,6 +30,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.viewHolder> 
         private TextView viewResidence;
         private TextView viewJob;
         private TextView viewHobby;
+        private TextView viewContact;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -39,6 +40,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.viewHolder> 
             viewResidence = itemView.findViewById(R.id.mEntryResidence);
             viewJob = itemView.findViewById(R.id.mEntryJob);
             viewHobby =itemView.findViewById(R.id.mEntryHobby);
+            viewContact =itemView.findViewById(R.id.mEntryContacts);
         }
     }
 
@@ -58,6 +60,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.viewHolder> 
         holder.viewResidence.setText(userData.get(i).getResidence());
         holder.viewJob.setText(userData.get(i).getJob());
         holder.viewHobby.setText(userData.get(i).getHobby());
+        holder.viewContact.setText(userData.get(i).getContact());
         /*holder.viewEntry.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

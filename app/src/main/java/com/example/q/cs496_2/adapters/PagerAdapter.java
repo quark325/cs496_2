@@ -27,7 +27,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 OtherFragment tab2 = new OtherFragment();
                 return tab2;
             case 2:
-                OtherFragment tab3 = new OtherFragment();
+                MatchFragment tab3 = new MatchFragment();
                 return tab3;
             default:
                 return null;

@@ -50,12 +50,11 @@ public class InformationFragment extends Fragment {
         HttpGetRequest getRequest = new HttpGetRequest();
         //Perform the doInBackground method, passing in our url
 
-        Log.e("!!!!","실행은 된다.");
         try {
             result = getRequest.execute(myUrl).get();
-            Log.e("hoho: ", result);
+            Log.d("hoho: ", result);
             JSONObject reader = new JSONObject(result);
-            Log.e("!!!!","실행은 된다.");
+            Log.d("!!!!","실행은 된다.");
 
             String uId = reader.getString("uId");
             String age = reader.getString("age");
@@ -70,11 +69,11 @@ public class InformationFragment extends Fragment {
             String last_updated_time = reader.getString("last_updated_time");
             String residence = reader.getString("residence");
         } catch (ExecutionException e) {
-            Log.e("error", "haha");
+            Log.d("error", "haha");
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            Log.e("error", "haha");
+            Log.d("error", "haha");
         } catch (JSONException e) {
             e.printStackTrace();
         }
