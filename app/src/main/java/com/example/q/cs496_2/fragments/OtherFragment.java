@@ -80,6 +80,7 @@ public class OtherFragment extends Fragment {
                 JSONObject m = members.getJSONObject(i);
                 gender = m.getString("gender");
                 if (!gender.equals(myGender)) {
+                    photo = m.getString("photo");
                     name = m.getString("name");
                     age = m.getInt("age");
                     contact = m.getString("contact");

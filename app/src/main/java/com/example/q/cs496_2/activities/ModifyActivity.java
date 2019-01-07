@@ -132,6 +132,7 @@ public class ModifyActivity extends AppCompatActivity {
 
                 f = new File(path);
                 file_name = f.getName();
+                Ion.getDefault(getApplicationContext()).getConscryptMiddleware().enable(false);
                 Future uploading = Ion.with(ModifyActivity.this)
                         .load("http://143.248.140.106:2980/upload")
                         .setMultipartFile("image", f)

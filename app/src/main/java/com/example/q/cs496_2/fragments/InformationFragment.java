@@ -75,18 +75,20 @@ public class InformationFragment extends Fragment {
         
         try {
             get_result = getRequest.execute(myUrl).get();
-            JSONObject jsonObj = new JSONObject(get_result);
-                    //.getJSONObject("member");
-            JSONObject member = jsonObj.getJSONObject("member");
-            name = member.getString("name");
-            gender = member.getString("gender");
-            age = member.getInt("age");
-            contact = member.getString("contact");
-            residence = member.getString("residence");
-            job = member.getString("job");
-            hobby = member.getString("hobby");
-            photo = member.getString("photo");
-            Log.d("PHOTO",photo);
+            if (get_result != null) {
+                JSONObject jsonObj = new JSONObject(get_result);
+                //.getJSONObject("member");
+                JSONObject member = jsonObj.getJSONObject("member");
+                name = member.getString("name");
+                gender = member.getString("gender");
+                age = member.getInt("age");
+                contact = member.getString("contact");
+                residence = member.getString("residence");
+                job = member.getString("job");
+                hobby = member.getString("hobby");
+                photo = member.getString("photo");
+                Log.d("PHOTO", photo);
+            }
         } catch (ExecutionException e) {
             Log.e("error", "haha");
             e.printStackTrace();
