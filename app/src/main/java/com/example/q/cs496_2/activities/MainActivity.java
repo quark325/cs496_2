@@ -17,6 +17,7 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import org.json.JSONObject;
@@ -47,15 +48,13 @@ public class MainActivity extends AppCompatActivity {
         token = AccessToken.getCurrentAccessToken();
 
 
-        //로그인이 되어있는 경우
+        //TODO 로그인 되어있다면, 로그아웃한다.
         if (token != null){
             String id = Profile.getCurrentProfile().getId();
             Log.e("@@Login success ID","id");
+            LoginManager.getInstance().logOut();
+        }
 
-        }
-        else {//로그인 되어있지 않은 경우
-            Log.e("@@Not Login","notyet login");
-        }
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {

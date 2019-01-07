@@ -50,12 +50,12 @@ public class InformationFragment extends Fragment {
         HttpGetRequest getRequest = new HttpGetRequest();
         //Perform the doInBackground method, passing in our url
 
-        Log.d("!!!!","실행은 된다.");
+        Log.e("!!!!","실행은 된다.");
         try {
             result = getRequest.execute(myUrl).get();
-            Log.d("hoho: ", result);
+            Log.e("hoho: ", result);
             JSONObject reader = new JSONObject(result);
-            Log.d("!!!!","실행은 된다.");
+            Log.e("!!!!","실행은 된다.");
 
             String uId = reader.getString("uId");
             String age = reader.getString("age");

@@ -1,7 +1,12 @@
 package com.example.q.cs496_2.activities;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +22,15 @@ import android.widget.Toast;
 
 import com.example.q.cs496_2.R;
 import com.facebook.Profile;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.concurrent.Future;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -29,7 +43,11 @@ public class ModifyActivity extends AppCompatActivity {
     private String birthday;
     private String residence;
     private RadioButton male, female;
-
+    public File f;
+    ImageView editPhoto;
+    String path;
+    String file_name;
+    boolean image_add = false;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -37,7 +55,7 @@ public class ModifyActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.mypage_modify);
 
-        final ImageView editPhoto = (ImageView) findViewById(R.id.modifyImage);
+        editPhoto = (ImageView) findViewById(R.id.modifyImage);
         final TextView editName = (TextView) findViewById(R.id.modifyName);
         final SegmentedGroup editGender = (SegmentedGroup) findViewById(R.id.segmented);
         final TextView editBirthday = (TextView) findViewById(R.id.modifyBirthDay);
@@ -72,6 +90,13 @@ public class ModifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO PHOTO SELECT 화면으로 넘어가는 기능
+                Intent fintent = new Intent(Intent.ACTION_GET_CONTENT);
+                fintent.setType("image/jpeg");
+                try {
+                    startActivityForResult(fintent, 100);
+                } catch (ActivityNotFoundException e) {
+
+                }
             }
         });
 
@@ -82,7 +107,7 @@ public class ModifyActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //데이터 유효성 검사
                 if(notAllWritten()){
-                    Toast toast = Toast.makeText(getApplicationContext(), "should fill all blanks", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "should fill all blanks and add Image", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
@@ -132,6 +157,20 @@ public class ModifyActivity extends AppCompatActivity {
         });
     }
 
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
     @NonNull
     private String changeOrder(String birthday) {
         String[] date = birthday.split("/");
