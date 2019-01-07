@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -31,6 +32,9 @@ public class ModifyActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title
+        getSupportActionBar().hide();
         setContentView(R.layout.mypage_modify);
 
         final ImageView editPhoto = (ImageView) findViewById(R.id.modifyImage);
@@ -60,7 +64,6 @@ public class ModifyActivity extends AppCompatActivity {
             male.setChecked(true);
         }
 
-        //TODO 전체 다 채워져있지 않으면 거절하기
         //TODO 사진 받아오기
         //TODO 받아온 사진 서버로 옮기기
 

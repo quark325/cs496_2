@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.q.cs496_2.fragments.InformationFragment;
+import com.example.q.cs496_2.fragments.MatchFragment;
 import com.example.q.cs496_2.fragments.OtherFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -25,6 +26,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 OtherFragment tab2 = new OtherFragment();
                 return tab2;
+            case 2:
+                OtherFragment tab3 = new OtherFragment();
+                return tab3;
             default:
                 return null;
         }

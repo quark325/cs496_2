@@ -21,7 +21,7 @@ public class FragmentActivity extends AppCompatActivity {
 
         setContentView(R.layout.fragment_main);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), 2);
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), 3);
         mViewPager.setAdapter(mPagerAdapter);
     }
 }
