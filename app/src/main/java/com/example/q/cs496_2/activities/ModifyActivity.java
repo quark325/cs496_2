@@ -170,9 +170,6 @@ public class ModifyActivity extends AppCompatActivity {
                     json.put("contact",editContact.getText().toString());
                     json.put("residence",editResidence.getText().toString());
                     json.put("name",editName.getText().toString());
-                    //json_test.put("value","7");
-                    //json_test.put("propName","id");
-                    //linkerList.add(json);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
