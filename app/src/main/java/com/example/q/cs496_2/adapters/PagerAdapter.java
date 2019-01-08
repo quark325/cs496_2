@@ -9,35 +9,36 @@ import com.example.q.cs496_2.fragments.InformationFragment;
 import com.example.q.cs496_2.fragments.MatchFragment;
 import com.example.q.cs496_2.fragments.OtherFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
-    int mNumOfTabs;
+    private final List<Fragment> fragmentList = new ArrayList<>();
+    private final List<String> FragmentListTitles = new ArrayList<>();
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
-        this.mNumOfTabs = NumOfTabs;
     }
 
     @Override
     public Fragment getItem(int position) {
-
-        switch (position) {
-            case 0:
-                OtherFragment tab1 = new OtherFragment();
-                return tab1;
-            case 1:
-                InformationFragment tab2 = new InformationFragment();
-                return tab2;
-            case 2:
-                MatchFragment tab3 = new MatchFragment();
-                return tab3;
-            default:
-                return null;
-        }
+        return fragmentList.get(position);
     }
+
 
     @Override
     public int getCount() {
-        return mNumOfTabs;
+        return FragmentListTitles.size();
     }
 
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return FragmentListTitles.get(position);
+    }
+
+    public void AddFragment(Fragment fragment, String Title){
+        fragmentList.add(fragment);
+        FragmentListTitles.add(Title);
+    }
 }
