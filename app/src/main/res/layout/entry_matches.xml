@@ -96,6 +96,8 @@
             <TextView
                 android:id="@+id/mEntryContacts"
                 style="@style/Entry"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
                 app:fontFamily="@font/mf_time_traveler"
                 tools:text="연락처" />
         </LinearLayout>

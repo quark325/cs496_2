@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +36,13 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-public class InformationFragment extends Fragment {
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+public class InformationFragment extends Fragment implements View.OnClickListener {
+    Animation fab_open, fab_close;
+    Boolean isFabOpen = false;
+    FloatingActionButton fab, fab1, fab2;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +52,8 @@ public class InformationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_information, container, false);
-
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
         ImageView viewImage = view.findViewById(R.id.infoImage);
         TextView viewName = (TextView) view.findViewById(R.id.infoName);
         TextView viewGender = (TextView) view.findViewById(R.id.infoGender);
@@ -53,6 +62,12 @@ public class InformationFragment extends Fragment {
         TextView viewResidence = (TextView) view.findViewById(R.id.infoResidence);
         TextView viewJob = (TextView) view.findViewById(R.id.infoJob);
         TextView viewHobby = (TextView) view.findViewById(R.id.infoHobby);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab1 = (FloatingActionButton) view.findViewById(R.id.infoEdit);
+        fab2 = (FloatingActionButton) view.findViewById(R.id.logoutButton);
+        fab.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
 
         String name="";
         String gender="";
@@ -111,7 +126,7 @@ public class InformationFragment extends Fragment {
         RequestManager requestManager = Glide.with(imageAdapter.getContext());
         // Create request builder and load image.
         RequestBuilder requestBuilder = requestManager.load("http://143.248.140.106:2980/uploads/"+photo);
-        requestBuilder = requestBuilder.apply(new RequestOptions().override(250, 250));
+        //requestBuilder = requestBuilder.apply(new RequestOptions().override(250, 250));
         // Show image into target imageview.
         requestBuilder.into(viewImage);
         viewImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -127,7 +142,8 @@ public class InformationFragment extends Fragment {
         viewHobby.setText(hobby);
 
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.infoEdit);
+/*
+        //FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,8 +165,52 @@ public class InformationFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
             }
-        });
-        
+        });*/
+
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        Intent intent;
+        switch (id) {
+            case R.id.fab:
+                anim();
+                //Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.infoEdit:
+                anim();
+                intent=new Intent(getActivity(),ModifyActivity.class);
+                intent.putExtra("isMember", "yes");
+                startActivity(intent);
+                getActivity().finish();
+                //Toast.makeText(this, "Button1", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.logoutButton:
+                anim();
+                intent=new Intent(getActivity(),MainActivity.class);
+                LoginManager.getInstance().logOut();
+                startActivity(intent);
+                getActivity().finish();
+                //Toast.makeText(this, "Button2", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+    public void anim() {
+
+        if (isFabOpen) {
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            isFabOpen = true;
+        }
     }
 }

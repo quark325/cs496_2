@@ -201,7 +201,7 @@ public class ModifyActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //데이터 유효성 검사 Text부분
                 if(notAllWritten()){
-                    Toast toast = Toast.makeText(getApplicationContext(), "You should fill all blanks", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "간절해야 이루어진다구", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
@@ -244,7 +244,7 @@ public class ModifyActivity extends AppCompatActivity {
                                     }
                                 });
                     } catch (NullPointerException e) {
-                        Toast toast = Toast.makeText(getApplicationContext(), "You should add Photo", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), "당.당.하.게.얼.굴.공.개", Toast.LENGTH_SHORT);
                         toast.show();
                         return;
                     }
@@ -332,6 +332,7 @@ public class ModifyActivity extends AppCompatActivity {
                     Log.d(" Real Path : ", path);
                     editPhoto.setImageURI(data.getData());
                     //upload.setVisibility(View.VISIBLE);
+                    isPhotoChange = true;
                 }
         }
     }

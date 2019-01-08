@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -32,6 +33,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> {
     private ArrayList<User> userData;
@@ -182,6 +185,8 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
 
                 // matching 성공 시
                 if (matched) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "운명적 만남이 시작됐어요", Toast.LENGTH_SHORT);
+                    toast.show();
                     List<JSONObject> my_linkerList = new ArrayList<>(); // 대괄호 역할
                     List<JSONObject> your_linkerList = new ArrayList<>(); // 대괄호 역할
 
@@ -263,6 +268,8 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
                     Log.d("NOWPATCH","START2");
                     new HttpPatchRequest(your_json_string, takerId).execute();
                 } else { // match 실패
+                    Toast toast = Toast.makeText(getApplicationContext(), "기다림의 설렘을 느껴봐요!!", Toast.LENGTH_SHORT);
+                    toast.show();
                     try {
                         //하트 받는 사람의 received 에 내 id 넣기
                         your_received.put(myId);
