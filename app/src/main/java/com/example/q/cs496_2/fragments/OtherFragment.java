@@ -46,6 +46,7 @@ public class OtherFragment extends Fragment {
         String myUrl = mUrl + id;
 
         String myGender;
+        JSONArray mySuccess;
         String name="";
         String gender="";
         int age=0;
@@ -69,34 +70,50 @@ public class OtherFragment extends Fragment {
             //.getJSONObject("member");
             JSONObject member = myJsonObj.getJSONObject("member");
             myGender = member.getString("gender");
+            mySuccess = member.getJSONArray("success");
             get_result = getMyRequest.execute(mUrl).get();
             JSONObject jsonObj = new JSONObject(get_result); //
 
             // Getting JSON Array node
             JSONArray members = jsonObj.getJSONArray("members");
 
-            for (int i = 0; i < members.length(); ++i)
-            {
+            for (int i = 0; i < members.length(); ++i) {
                 JSONObject m = members.getJSONObject(i);
                 gender = m.getString("gender");
+                id = m.getString("uId");
                 if (!gender.equals(myGender)) {
-                    photo = m.getString("photo");
-                    name = m.getString("name");
-                    age = m.getInt("age");
-                    contact = m.getString("contact");
-                    residence = m.getString("residence");
-                    job = m.getString("job");
-                    hobby = m.getString("hobby");
-                    id = m.getString("uId");
-                    User user1 = new User();
-                    user1.setName(name);
-                    user1.setAge("" + age);
-                    user1.setResidence(residence);
-                    user1.setHobby(hobby);
-                    user1.setJob(job);
-                    user1.setPhoto(photo);
-                    user1.setId(id);
-                    userData.add(user1);
+                    boolean run = true;
+                    if (mySuccess != null)
+                    {
+                        for (int j = 0; j < mySuccess.length(); ++j)
+                        {
+                            if (id.equals(mySuccess.getString(j)))
+                            {
+                                run = false;
+                            }
+                        }
+                    }
+                    if (run) {
+                        photo = m.getString("photo");
+                        name = m.getString("name");
+                        age = m.getInt("age");
+                        contact = m.getString("contact");
+                        residence = m.getString("residence");
+                        job = m.getString("job");
+                        hobby = m.getString("hobby");
+                        User user1 = new User();
+                        user1.setName(name);
+                        user1.setAge("" + age);
+                        user1.setResidence(residence);
+                        user1.setHobby(hobby);
+                        user1.setJob(job);
+                        user1.setPhoto(photo);
+                        user1.setId(id);
+                        userData.add(user1);
+                    }
+                    else {
+
+                    }
                 }
             }
         } catch (ExecutionException e) {
