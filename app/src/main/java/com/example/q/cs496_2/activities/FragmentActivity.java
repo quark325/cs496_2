@@ -24,26 +24,10 @@ public class FragmentActivity extends AppCompatActivity {
 
         setContentView(R.layout.fragment_main);
 
-        TabBar = (TabLayout) findViewById(R.id.tabLayout);
-        TabBar.setupWithViewPager(mViewPager);
-        TabBar.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(TabBar));
-            }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), 3);
         mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setCurrentItem(1, true);
     }
 }
 
