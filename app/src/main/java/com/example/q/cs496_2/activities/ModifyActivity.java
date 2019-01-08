@@ -29,25 +29,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.os.*;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.example.q.cs496_2.R;
 import com.example.q.cs496_2.adapters.ImageAdapter;
+import com.example.q.cs496_2.https.HttpGetRequest;
+import com.example.q.cs496_2.https.HttpPatchRequest;
 import com.example.q.cs496_2.https.HttpPostRequest;
 import com.facebook.Profile;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.EOFException;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
 import info.hoang8f.android.segmented.SegmentedGroup;
 
 public class ModifyActivity extends AppCompatActivity {
+    private String id;
     private String name;
     private String gender;
     private String contact;
@@ -57,11 +68,14 @@ public class ModifyActivity extends AppCompatActivity {
     private String residence;
     private RadioButton male, female;
     private boolean isMember;
-    String path;
+    private boolean isPhotoChange = false;
+    private String photo;
+    public String path;
     public File f;
     public String file_name;
     public ImageView editPhoto;
     public final int REQUEST_CODE = 1;
+    JSONObject json;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +99,7 @@ public class ModifyActivity extends AppCompatActivity {
 
     public void doLoad()
     {
+        setResult(RESULT_CANCELED);
         //layout과의 연결을 담당하는 부분
         editPhoto = (ImageView) findViewById(R.id.modifyImage);
         final TextView editName = (TextView) findViewById(R.id.modifyName);
@@ -99,14 +114,58 @@ public class ModifyActivity extends AppCompatActivity {
 
         //초기 로그인 : id, name, birthday, gender 받기
         Intent intent=getIntent();
-        final String id = intent.getStringExtra("id");
-        name = intent.getStringExtra("name");
-        birthday = intent.getStringExtra("birthday");//생년월일 순서 정렬
-        gender = intent.getStringExtra("gender");
+        if (intent.getStringExtra("isMember")!=null){
+            isMember = true;
+        }else{ isMember = false;}
+
+        json = new JSONObject();
+
 
         //TODO 이미 회원인 경우 모든 데이터를 이전과 동일하게 채워넣는다.
-        if (intent.getStringExtra("isMember")!=null){
-            Log.d("!!!!", "이미 회원인 경우 작동한다.");
+        if (isMember){
+            HttpGetRequest getMyRequest = new HttpGetRequest();
+            id = Profile.getCurrentProfile().getId();
+            String myUrl = "http://143.248.140.106:2580/members/"+id;
+            try {
+                JSONObject myJsonObj = new JSONObject(getMyRequest.execute(myUrl).get());
+                json = myJsonObj.getJSONObject("member");
+                name = json.getString("name");
+                gender = json.getString("gender");
+                birthday = json.getString("date_of_birth");
+                contact = json.getString("contact");
+                //아래부분은 공통정보가 아님
+                residence = json.getString("residence");
+                job = json.getString("job");
+                hobby = json.getString("hobby");
+                contact = json.getString("contact");
+                photo = json.getString("photo");
+                editContact.setText(contact);
+                editResidence.setText(residence);
+                editJob.setText(job);
+                editHobby.setText(hobby);
+                Uri uri = null;
+                ImageAdapter imageAdapter = new ImageAdapter(editPhoto.getContext(), uri);
+                //ImageView imageView = new ImageView(getContext());
+                RequestManager requestManager = Glide.with(imageAdapter.getContext());
+                // Create request builder and load image.
+                RequestBuilder requestBuilder = requestManager.load("http://143.248.140.106:2980/uploads/"+photo);
+                //requestBuilder = requestBuilder.apply(new RequestOptions().override(250, 250));
+                // Show image into target imageview.
+                requestBuilder.into(editPhoto);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }else{//TODO 이미 회원이 아닌 경우 indent에서 데이터를 가져와서 채워넣는다.
+            id = intent.getStringExtra("id");
+            name = intent.getStringExtra("name");
+            birthday = intent.getStringExtra("birthday");//생년월일 순서 정렬
+            gender = intent.getStringExtra("gender");
         }
 
         //받아온 정보 입력
@@ -118,8 +177,8 @@ public class ModifyActivity extends AppCompatActivity {
             } else {
                 male.setChecked(true);
             }
-
         }
+
         //이미지 버튼 클릭시
         editPhoto.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -129,7 +188,6 @@ public class ModifyActivity extends AppCompatActivity {
                 fintent.setType("image/jpeg");
                 try {
                     startActivityForResult(fintent, 100);
-                    Log.e("!!!","Come here?");
                 } catch (ActivityNotFoundException e) {
 
                 }
@@ -147,16 +205,6 @@ public class ModifyActivity extends AppCompatActivity {
                     toast.show();
                     return;
                 }
-                //데이터 유효성 검사 Photo부분
-                try{
-                    f = new File(path);
-                    file_name = f.getName();
-                }catch (NullPointerException e){
-                    Toast toast = Toast.makeText(getApplicationContext(), "You should add Photo", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-
                 //gender check, 생년월일 -> 나이
                 birthday = changeOrder(birthday);
                 String gender;
@@ -165,62 +213,65 @@ public class ModifyActivity extends AppCompatActivity {
                 }else {
                     gender = "male";
                 }
-                //Image Upload
-                //파일이름 : file_name
+                ArrayList<String> key = new ArrayList<String>(Arrays.asList(
+                        "uId", "date_of_birth", "job", "gender", "contact", "residence","name","hobby"));
+                ArrayList<String> value = new ArrayList<String>(Arrays.asList(id, birthday, editJob.getText().toString(), gender,
+                        editContact.getText().toString(), editResidence.getText().toString(),
+                        editName.getText().toString(), editHobby.getText().toString()));
+                //데이터 유효성 검사 Photo부분, 신규인원이거나 사진변경을 했으면 확인해야함
+                if (!isMember || isPhotoChange) {
+                    try {
+                        f = new File(path);
+                        file_name = f.getName();
+                        key.add("photo");
+                        value.add(file_name);
+                        Future uploading = Ion.with(ModifyActivity.this)
+                                .load("http://143.248.140.106:2980/upload")
+                                .setMultipartFile("image", f)
+                                .asString()
+                                .withResponse()
+                                .setCallback(new FutureCallback<Response<String>>() {
+                                    @Override
+                                    public void onCompleted(Exception e, Response<String> result) {
+                                        try {
+                                            JSONObject jobj = new JSONObject(result.getResult());
+                                            Toast.makeText(getApplicationContext(), jobj.getString("response"), Toast.LENGTH_SHORT).show();
 
-                //Ion.getDefault(getApplicationContext()).getConscryptMiddleware().enable(false);
-                Future uploading = Ion.with(ModifyActivity.this)
-                        .load("http://143.248.140.106:2980/upload")
-                        .setMultipartFile("image", f)
-                        .asString()
-                        .withResponse()
-                        .setCallback(new FutureCallback<Response<String>>() {
-                            @Override
-                            public void onCompleted(Exception e, Response<String> result) {
-                                try {
-                                    JSONObject jobj = new JSONObject(result.getResult());
-                                    Toast.makeText(getApplicationContext(), jobj.getString("response"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e1) {
+                                            e1.printStackTrace();
+                                        }
 
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-
-                            }
-                        });
-
-                /*TODO 여기가 데이터 보내는 부분. 아래있는 형식대로 데이터를 넘기면 된다.
-                ID정보 : id;
-                이름 : editName.getText().toString();
-                성별 : gender;
-                나이 : age; -- 이거만 int 타입
-                연락처 : editContact.getText().toString();
-                거주지 : editResidence.getText().toString();
-                직업 : editJob.getText().toString();
-                취미 : editHobby.getText().toString();
-                */
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("uId",id);
-                    //date of birth 변수가 없음!!!!
-                    json.put("date_of_birth","1997/10/03");
-                    json.put("job", editJob.getText().toString());
-                    json.put("hobby",editHobby.getText().toString());
-                    json.put("gender",gender);
-                    json.put("contact",editContact.getText().toString());
-                    json.put("residence",editResidence.getText().toString());
-                    json.put("name",editName.getText().toString());
-                    json.put("photo",file_name);
-                    //json_test.put("value","7");
-                    //json_test.put("propName","id");
-                    //linkerList.add(json);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                                    }
+                                });
+                    } catch (NullPointerException e) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "You should add Photo", Toast.LENGTH_SHORT);
+                        toast.show();
+                        return;
+                    }
                 }
+
+                // 여기가 데이터 보내는 부분. 아래있는 형식대로 데이터를 넘기면 된다.
                 try {
                     //http에 넣을 수 있는 형식으로 만들기
-                    StringEntity json_string = new StringEntity(json.toString());
                     //httprequestclass 로 보내서 실행시키기
-                    new HttpPostRequest(json_string).execute();
+                    if (isMember) {
+                        JSONArray linkerList = new JSONArray();
+                        for(int i=0; i<key.size(); i++) {
+                            JSONObject a = new JSONObject();
+                            a.put("propName", key.get(i));
+                            a.put("value", value.get(i));
+                            linkerList.put(a);
+                        }
+                        StringEntity json_string = new StringEntity(linkerList.toString());
+                        new HttpPatchRequest(json_string,id).execute();
+                    }else{
+                        for(int i=0; i<key.size(); ++i){
+                            json.put(key.get(i),value.get(i));
+                        }
+                        StringEntity json_string = new StringEntity(json.toString());
+                        new HttpPostRequest(json_string).execute();
+                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -238,6 +289,7 @@ public class ModifyActivity extends AppCompatActivity {
 
                 //다음 Activity로 이동
                 startActivity(new Intent(ModifyActivity.this, FragmentActivity.class));
+                setResult(RESULT_OK);
                 finish();
             }
 

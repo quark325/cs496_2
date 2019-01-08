@@ -105,6 +105,9 @@ public class OtherFragment extends Fragment {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            Log.e("!!!!!","nullpointerexception");
         }
 
         mRecyclerView = view.findViewById(R.id.othersRecyclerView);
