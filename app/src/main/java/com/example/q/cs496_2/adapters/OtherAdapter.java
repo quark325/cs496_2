@@ -72,9 +72,6 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final OtherAdapter.viewHolder holder, final int i) {
-        //holder.viewPhoto;
-
-
         Uri uri = null;
         ImageAdapter imageAdapter = new ImageAdapter(holder.viewPhoto.getContext(), uri);
         //ImageView imageView = new ImageView(getContext());
@@ -102,10 +99,6 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
                 //내 gaved List 받아오기
 
                 //상대의 received List 받아오기
-
-
-
-
 
 
                 //하트 받는 사람의 received 에 내 id 넣기
