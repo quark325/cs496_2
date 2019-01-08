@@ -1,8 +1,10 @@
 package com.example.q.cs496_2.adapters;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.example.q.cs496_2.R;
 import com.example.q.cs496_2.models.User;
 
@@ -54,20 +59,22 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.viewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MatchAdapter.viewHolder holder, int i) {
-        //holder.viewPhoto;
+        //View holder에 적절한 값을 bind하는 함수
+        Uri uri = null;
+        ImageAdapter imageAdapter = new ImageAdapter(holder.viewPhoto.getContext(), uri);
+        //ImageView imageView = new ImageView(getContext());
+        RequestManager requestManager = Glide.with(imageAdapter.getContext());
+        // Create request builder and load image.
+        RequestBuilder requestBuilder = requestManager.load("http://143.248.140.106:2980/uploads/"+userData.get(i).getPhoto());
+        //requestBuilder = requestBuilder.apply(new RequestOptions().override(250, 250));
+        // Show image into target imageview.
+        requestBuilder.into(holder.viewPhoto);
         holder.viewName.setText(userData.get(i).getName());
         holder.viewAge.setText(userData.get(i).getAge());
         holder.viewResidence.setText(userData.get(i).getResidence());
         holder.viewJob.setText(userData.get(i).getJob());
         holder.viewHobby.setText(userData.get(i).getHobby());
         holder.viewContact.setText(userData.get(i).getContact());
-        /*holder.viewEntry.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //TODO heart +하는 방법 생각
-            }
-        });
-        */
     }
 
     @Override
