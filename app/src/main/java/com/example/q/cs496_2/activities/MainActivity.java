@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             else {
                 //로그인이 되어있는데 회원이 아닌경우 회원가입페이지로 이동
                 Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         }
 
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                         intent.putExtra("name", object.getString("name"));
                                         intent.putExtra("birthday", object.getString("birthday"));
                                         intent.putExtra("gender", object.getString("gender"));
-                                        startActivity(intent);
+                                        startActivityForResult(intent,1);
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -157,6 +157,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1 :
+                if(resultCode==RESULT_OK) {
+                    finish();
+                    break;
+                }else{
+                    LoginManager.getInstance().logOut();
+                    break;
+                }
+
+            default :
+                callbackManager.onActivityResult(requestCode, resultCode, data);
+                break;
+
+        }
     }
 }

@@ -51,7 +51,7 @@ public class MatchFragment extends Fragment {
         HttpGetRequest getMyRequest = new HttpGetRequest();
         
         try {
-            JSONObject myJsonObj = new JSONObject(getObjRequest.execute(myUrl).get());
+            JSONObject myJsonObj = new JSONObject(getMyRequest.execute(myUrl).get());
             JSONObject member = myJsonObj.getJSONObject("member");//member성분 추출
             JSONArray matchesJSON = member.getJSONArray("success"); //나와 match된 사람들의 uid를 담고 있는 Jsonarray
             ArrayList<String> matchesList = new ArrayList<String>();
@@ -61,7 +61,7 @@ public class MatchFragment extends Fragment {
                     matchesList.add(matchesJSON.get(i).toString());
                 }
             }
-            JSONObject jsonAll = new JSONObject(getMyRequest.execute(mUrl).get()); // 모든 사람의 데이터를 담고있는 json
+            JSONObject jsonAll = new JSONObject(getObjRequest.execute(mUrl).get()); // 모든 사람의 데이터를 담고있는 json
 
             // Getting JSON Array node
             JSONArray jsonMembers = jsonAll.getJSONArray("members");

@@ -21,6 +21,7 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.q.cs496_2.R;
+import com.example.q.cs496_2.activities.ModifyActivity;
 import com.example.q.cs496_2.adapters.ImageAdapter;
 import com.example.q.cs496_2.activities.MainActivity;
 import com.example.q.cs496_2.https.HttpGetRequest;
@@ -131,6 +132,10 @@ public class InformationFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //TODO Edit화면으로 넘어감.
+                Intent intent=new Intent(getActivity(),ModifyActivity.class);
+                intent.putExtra("isMember", "yes");
+                startActivity(intent);
+                getActivity().finish();
             }
         });
 
