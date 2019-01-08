@@ -60,13 +60,14 @@
 
             <TextView
                 style="@style/ContactTitle"
-                android:text="Name"/>
+                android:text="Name"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/infoName"
                 style="@style/ContactContent"
-                tools:text="Name"
-                />
+                app:fontFamily="@font/mf_time_traveler"
+                tools:text="Name" />
         </LinearLayout>
 
         <LinearLayout
@@ -77,12 +78,14 @@
 
             <TextView
                 style="@style/ContactTitle"
-                android:text="Gender"/>
+                android:text="Gender"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/infoGender"
                 style="@style/ContactContent"
-                tools:text="Gender"/>
+                app:fontFamily="@font/mf_time_traveler"
+                tools:text="Gender" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,12 +96,14 @@
 
             <TextView
                 style="@style/ContactTitle"
-                android:text="Age"/>
+                android:text="Age"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/infoAge"
                 style="@style/ContactContent"
-                tools:text="22"/>
+                app:fontFamily="@font/mf_time_traveler"
+                tools:text="22" />
         </LinearLayout>
 
         <LinearLayout
@@ -109,12 +114,14 @@
 
             <TextView
                 style="@style/ContactTitle"
-                android:text="Phone Number"/>
+                android:text="Phone Number"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/infoContact"
                 style="@style/ContactContent"
-                tools:text="010-XXXX-XXXX"/>
+                app:fontFamily="@font/mf_time_traveler"
+                tools:text="010-XXXX-XXXX" />
         </LinearLayout>
 
         <LinearLayout
@@ -125,12 +132,14 @@
 
             <TextView
                 style="@style/ContactTitle"
-                android:text="Residence"/>
+                android:text="Residence"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/infoResidence"
                 style="@style/ContactContent"
-                tools:text="Residence"/>
+                app:fontFamily="@font/mf_time_traveler"
+                tools:text="Residence" />
         </LinearLayout>
 
         <LinearLayout
@@ -141,12 +150,14 @@
 
             <TextView
                 style="@style/ContactTitle"
-                android:text="Job"/>
+                android:text="Job"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/infoJob"
                 style="@style/ContactContent"
-                tools:text="Job"/>
+                app:fontFamily="@font/mf_time_traveler"
+                tools:text="Job" />
         </LinearLayout>
 
         <LinearLayout
@@ -157,12 +168,14 @@
 
             <TextView
                 style="@style/ContactTitle"
-                android:text="Hobby"/>
+                android:text="Hobby"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/infoHobby"
                 style="@style/ContactContent"
-                tools:text="Hobby"/>
+                app:fontFamily="@font/mf_time_traveler"
+                tools:text="Hobby" />
         </LinearLayout>
         </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
