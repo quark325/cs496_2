@@ -150,17 +150,7 @@ public class InformationFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-        //TODO 간이용 EXIT 버튼 추후 수정 예정
-        Button exit = (Button) view.findViewById(R.id.exitButton);
-        exit.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
-
-
+        
         return view;
     }
 }
