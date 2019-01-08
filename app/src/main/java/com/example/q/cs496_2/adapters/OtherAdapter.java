@@ -21,6 +21,7 @@ import com.example.q.cs496_2.https.HttpPostRequest;
 import com.example.q.cs496_2.models.User;
 import com.facebook.Profile;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,7 +45,7 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
         private TextView viewResidence;
         private TextView viewJob;
         private TextView viewHobby;
-        private ImageButton heartButton;
+        public ImageButton heartButton;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,7 +71,7 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OtherAdapter.viewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final OtherAdapter.viewHolder holder, final int i) {
         //holder.viewPhoto;
 
 
@@ -95,6 +96,18 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
         holder.heartButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                //내 아이디 : myId
+                //상대 아이디 : takerId
+
+                //내 gaved List 받아오기
+
+                //상대의 received List 받아오기
+
+
+
+
+
+
                 //하트 받는 사람의 received 에 내 id 넣기
                 JSONObject json = new JSONObject();
                 List<JSONObject> linkerList = new ArrayList<>();
@@ -115,12 +128,16 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
                     e.printStackTrace();
                 }
 
+
                 //내 gave에 하트 받는 사람 id 넣기
                 JSONObject json_2 = new JSONObject();
                 List<JSONObject> linkerList_2 = new ArrayList<>();
+                JSONArray idList = new JSONArray();
+                idList.put(takerId);
+                idList.put(myId);
                 try {
                     json_2.put("propName","gave");
-                    json_2.put("value",takerId);
+                    json_2.put("value",idList);
                     linkerList_2.add(json_2);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -134,6 +151,10 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.viewHolder> 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                //하트 아이콘 바꾸기
+                holder.heartButton.setImageResource(R.drawable.chan_heart_image);
+
                 return false;
             }
         });
