@@ -1,19 +1,26 @@
 package com.example.q.cs496_2.activities;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.q.cs496_2.R;
+import com.example.q.cs496_2.adapters.ImageAdapter;
 import com.example.q.cs496_2.https.HttpPostRequest;
 import com.facebook.Profile;
 import com.koushikdutta.async.future.FutureCallback;
@@ -51,6 +59,8 @@ public class ModifyActivity extends AppCompatActivity {
     public File f;
     public String file_name;
     public ImageView editPhoto;
+    public final int REQUEST_CODE = 1;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -59,6 +69,20 @@ public class ModifyActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.mypage_modify);
 
+        loadOrRequestPermission();
+    }
+
+    public void loadOrRequestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            doLoad();
+        }
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE);
+        }
+    }
+
+    public void doLoad()
+    {
         //layout과의 연결을 담당하는 부분
         editPhoto = (ImageView) findViewById(R.id.modifyImage);
         final TextView editName = (TextView) findViewById(R.id.modifyName);
@@ -222,6 +246,24 @@ public class ModifyActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    {
+        switch(requestCode)
+        {
+            case REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    doLoad();
+                }
+                else
+                {
+                    Toast.makeText(this, "Need to allow access!", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null)
             return;

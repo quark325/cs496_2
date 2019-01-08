@@ -43,19 +43,19 @@
             <TextView
                 style="@style/modifyTitle"
                 android:text="Name"
-                />
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/modifyName"
                 style="@style/modifyContent"
                 android:autofillHints="name"
-                tools:text="Name"
-                />
+                app:fontFamily="@font/mf_time_traveler"
+                tools:text="Name" />
 
             <TextView
                 style="@style/modifyTitle"
                 android:text="Gender"
-                />
+                app:fontFamily="@font/mf_time_traveler" />
             <info.hoang8f.android.segmented.SegmentedGroup
                 xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/segmented"
@@ -85,19 +85,21 @@
 
             <TextView
                 style="@style/modifyTitle"
-                android:text="Date of Birth"/>
+                android:text="Date of Birth"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <TextView
                 android:id="@+id/modifyBirthDay"
                 style="@style/modifyContent"
                 android:autofillHints="name"
                 android:background="?attr/editTextBackground"
-                android:text="2000-01-01">
-            </TextView>
+                android:text="2000-01-01"
+                app:fontFamily="@font/mf_time_traveler"></TextView>
 
             <TextView
                 style="@style/modifyTitle"
-                android:text="Phone Number"/>
+                android:text="Phone Number"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <EditText
                 android:id="@+id/modifyContact"
@@ -109,7 +111,8 @@
 
             <TextView
                 style="@style/modifyTitle"
-                android:text="Residence"/>
+                android:text="Residence"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <EditText
                 android:id="@+id/modifyResidence"
@@ -121,7 +124,8 @@
 
             <TextView
                 style="@style/modifyTitle"
-                android:text="Job"/>
+                android:text="Job"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <EditText
                 android:id="@+id/modifyJob"
@@ -133,7 +137,8 @@
 
             <TextView
                 style="@style/modifyTitle"
-                android:text="Hobby"/>
+                android:text="Hobby"
+                app:fontFamily="@font/mf_time_traveler" />
 
             <EditText
                 android:id="@+id/modifyHobby"

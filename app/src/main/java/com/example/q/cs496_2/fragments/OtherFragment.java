@@ -87,6 +87,7 @@ public class OtherFragment extends Fragment {
                     residence = m.getString("residence");
                     job = m.getString("job");
                     hobby = m.getString("hobby");
+                    id = m.getString("uId");
                     User user1 = new User();
                     user1.setName(name);
                     user1.setAge("" + age);
@@ -94,6 +95,7 @@ public class OtherFragment extends Fragment {
                     user1.setHobby(hobby);
                     user1.setJob(job);
                     user1.setPhoto(photo);
+                    user1.setId(id);
                     userData.add(user1);
                 }
             }
