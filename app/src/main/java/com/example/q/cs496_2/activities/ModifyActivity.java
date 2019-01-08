@@ -213,6 +213,7 @@ public class ModifyActivity extends AppCompatActivity {
                     //json_test.put("value","7");
                     //json_test.put("propName","id");
                     //linkerList.add(json);
+                    Log.d("hahihi", json.getString("name"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
