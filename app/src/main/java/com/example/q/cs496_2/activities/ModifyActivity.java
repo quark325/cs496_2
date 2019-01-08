@@ -30,6 +30,7 @@ import com.koushikdutta.ion.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.EOFException;
 import java.io.File;
 import java.util.concurrent.Future;
 
@@ -100,6 +101,7 @@ public class ModifyActivity extends AppCompatActivity {
                 fintent.setType("image/jpeg");
                 try {
                     startActivityForResult(fintent, 100);
+                    Log.e("!!!","Come here?");
                 } catch (ActivityNotFoundException e) {
 
                 }
@@ -111,9 +113,18 @@ public class ModifyActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //데이터 유효성 검사
+                //데이터 유효성 검사 Text부분
                 if(notAllWritten()){
-                    Toast toast = Toast.makeText(getApplicationContext(), "should fill all blanks and add Image", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "You should fill all blanks", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
+                //데이터 유효성 검사 Photo부분
+                try{
+                    f = new File(path);
+                    file_name = f.getName();
+                }catch (NullPointerException e){
+                    Toast toast = Toast.makeText(getApplicationContext(), "You should add Photo", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
@@ -128,10 +139,7 @@ public class ModifyActivity extends AppCompatActivity {
                 }
                 //Image Upload
                 //파일이름 : file_name
-                //TODO 이미지 추가를 하지 않으면 에러를 만들기 때문에 일단 이렇게 주석처리를 함. 작동하는 코드임
 
-                f = new File(path);
-                file_name = f.getName();
                 //Ion.getDefault(getApplicationContext()).getConscryptMiddleware().enable(false);
                 Future uploading = Ion.with(ModifyActivity.this)
                         .load("http://143.248.140.106:2980/upload")
