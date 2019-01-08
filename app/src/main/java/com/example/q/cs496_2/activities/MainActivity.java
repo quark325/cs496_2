@@ -79,9 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
             else {
-                //로그인이 되어있는데 회원이 아닌경우 회원가입페이지로 이동
-                Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
-                startActivityForResult(intent,1);
+                LoginManager.getInstance().logOut();
             }
         }
 

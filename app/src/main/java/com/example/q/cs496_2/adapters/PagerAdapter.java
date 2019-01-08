@@ -22,10 +22,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                InformationFragment tab1 = new InformationFragment();
+                OtherFragment tab1 = new OtherFragment();
                 return tab1;
             case 1:
-                OtherFragment tab2 = new OtherFragment();
+                InformationFragment tab2 = new InformationFragment();
                 return tab2;
             case 2:
                 MatchFragment tab3 = new MatchFragment();
@@ -43,8 +43,13 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position)
-            case 0  return In
-        return super.getPageTitle(position);
+        switch (position) {
+            case 0:
+                return "Tab1";
+            case 1:
+                return "Tab2";
+            default:
+                return "Tab3";
+        }
     }
 }
