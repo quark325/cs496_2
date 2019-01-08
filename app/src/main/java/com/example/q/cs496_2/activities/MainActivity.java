@@ -75,16 +75,13 @@ public class MainActivity extends AppCompatActivity {
             }
             //USER면 바로 information activity로 이동
             if (isUser) {
-                Log.e("!!!","!!!");
                 startActivity(new Intent(MainActivity.this, FragmentActivity.class));
                 finish();
             }
             else {
-                Log.e("!!!!","!!!!");
                 //로그인이 되어있는데 회원이 아닌경우 회원가입페이지로 이동
                 Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
                 startActivity(intent);
-                finish();
             }
         }
 
@@ -132,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                                         intent.putExtra("birthday", object.getString("birthday"));
                                         intent.putExtra("gender", object.getString("gender"));
                                         startActivity(intent);
-                                        finish();
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();

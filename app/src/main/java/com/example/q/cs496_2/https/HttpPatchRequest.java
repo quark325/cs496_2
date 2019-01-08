@@ -25,7 +25,7 @@ public class HttpPatchRequest extends AsyncTask<String, Void, JsonArray> {
 
     public JsonArray doInBackground(String... params) {
         try {
-            HttpPatch request = new HttpPatch("http://143.248.140.106:2580/members/17");
+            HttpPatch request = new HttpPatch("http://143.248.140.106:2580/members/"+user_id);
             //StringEntity params = new StringEntity(params);
             request.addHeader("content-type","application/json");
             request.addHeader("Accept","application/json");
