@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.*;
 
 import com.example.q.cs496_2.R;
 import com.example.q.cs496_2.adapters.ImageAdapter;
@@ -109,12 +111,14 @@ public class ModifyActivity extends AppCompatActivity {
         //받아온 정보 입력
         editName.setText(name);
         editBirthday.setText(birthday);
-        if (gender.equals("female")){
-            female.setChecked(true);
-        }else{
-            male.setChecked(true);
-        }
+        if (gender != null) {
+            if (gender.equals("female")) {
+                female.setChecked(true);
+            } else {
+                male.setChecked(true);
+            }
 
+        }
         //이미지 버튼 클릭시
         editPhoto.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -252,6 +256,7 @@ public class ModifyActivity extends AppCompatActivity {
                 else
                 {
                     Toast.makeText(this, "Need to allow access!", Toast.LENGTH_SHORT).show();
+                    loadOrRequestPermission();
                 }
         }
     }
