@@ -165,6 +165,7 @@ public class ModifyActivity extends AppCompatActivity {
             id = intent.getStringExtra("id");
             name = intent.getStringExtra("name");
             birthday = intent.getStringExtra("birthday");//생년월일 순서 정렬
+            birthday = changeOrder(birthday);
             gender = intent.getStringExtra("gender");
         }
 
@@ -206,7 +207,6 @@ public class ModifyActivity extends AppCompatActivity {
                     return;
                 }
                 //gender check, 생년월일 -> 나이
-                birthday = changeOrder(birthday);
                 String gender;
                 if (female.isChecked()){
                     gender = "female";
@@ -353,6 +353,7 @@ public class ModifyActivity extends AppCompatActivity {
     @NonNull
     private String changeOrder(String birthday) {
         String[] date = birthday.split("/");
+
         return date[2]+"/"+date[0]+"/"+date[1];
     }
 }
